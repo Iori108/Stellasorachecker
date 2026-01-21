@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ステラソラ 実績クリアチェッカーα</title>
+    <title>ステラソラ 実績クリアチェッカー 完全版</title>
     <style>
         :root {
             --bg-color: #121212;
@@ -50,6 +50,7 @@
         .progress-bar { background: var(--accent-color); height: 100%; width: 0%; transition: width 0.4s ease; }
         .progress-bar.complete { background-color: var(--success-color) !important; }
         .pct-label { font-size: 0.85rem; min-width: 45px; text-align: right; font-family: monospace; }
+        .complete-badge { color: var(--success-color); font-weight: bold; font-size: 0.8rem; margin-left: 5px; display: none; }
 
         .category-content { display: none; padding: 0; border-top: 1px solid var(--border-color); }
         .category.open .category-content { display: block; }
@@ -99,7 +100,7 @@
         <p>本ツールはステラソラ二次創作ガイドラインに沿って制作されたファンメイドコンテンツです。Yoster社とは関係ありません。</p>
         <p>本ツールは予告なしに利用を終了する場合があります</p>
         <p>こちらに関するお問い合わせ・要望、また、欠けている実績の情報提供等も大歓迎です！</p>
-        <p>メール: ioritoku108@gmail.com | Discord: iori108 | X: @iori108_</p>
+        <p>メール: ioritoku108@gmail.com | Discord: iori108</p>
     </footer>
 </div>
 
@@ -127,8 +128,8 @@
                 { id: 204, name: "ユメカウツツカ", reward: "星ノ欠片 5", condition: "メインストーリー「未来のない巡遊者」をクリアする" },
                 { id: 205, name: "安定雇用", reward: "星ノ欠片 5", condition: "メインストーリー「変わらないもの」をクリアする" },
                 { id: 206, name: "甘い罠", reward: "名誉称号「甘い罠」", condition: "メインストーリー第四章をクリアする" },
-                { id: 207, name: "MVP従業員", reward: "名誉称号「MVP従業員」", condition: "メインストーリー第五章をクリアする" }
-                { id: 208, name:"夜と彩る銀の星", reward: "名誉称号「夜を彩る銀の星」", condition: "メインストーリー第六章をクリアする" }
+                { id: 207, name: "MVP従業員", reward: "名誉称号「MVP従業員」", condition: "メインストーリー第五章をクリアする" },
+                { id: 208, name: "夜と彩る銀の星", reward: "名誉称号「夜を彩る銀の星」", condition: "メインストーリー第六章をクリアする" }
             ]
         },
         {
@@ -140,31 +141,18 @@
                 ...[1,2,3,4,5,6,7].map(i => ({ id: 330+i, name: `大気を裂く雷 ${ROMAN[i]}`, reward: i<=4?"星ノ欠片 5":"星ノ欠片 10", condition: `暴風と雷光の難易度${i}を1回クリアする` })),
                 ...[2,4,6,7].map((n, i) => ({ id: 341+i, name: `手広く対応 ${ROMAN[i+1]}`, reward: n==2?"星ノ欠片 5":n<7?"星ノ欠片 10":"星ノ欠片 20", condition: `3つの星ノ塔で難易度${n}をクリアする` })),
                 ...[3,10,30,50,100].map((n, i) => ({ id: 351+i, name: `習うより慣れろ ${ROMAN[i+1]}`, reward: n<=10?"星ノ欠片 5":n<=50?"星ノ欠片 10":"星ノ欠片 20", condition: `星ノ塔を${n}回クリアする` })),
-                { id: 361, name: "逸材", reward: "星ノ欠片 5", condition: "緑色の記録を獲得する" },
-                { id: 362, name: "卓越", reward: "星ノ欠片 5", condition: "青色の記録を獲得する" },
-                { id: 363, name: "鍛錬の極み", reward: "星ノ欠片 10", condition: "金色の記録を獲得する" },
-                { id: 364, name: "至高の域", reward: "星ノ欠片 20", condition: "虹色の記録を獲得する" },
-                { id: 365, name: "エースメンター", reward: "星ノ欠片 20", condition: "虹色の記録を10回獲得する" },
                 ...["水","火","地","風","光","闇"].flatMap((attr, idx) => [5,10,20,50].map((n, i) => ({ id: 3000+(idx*10)+i, name: `${attr}のエキスパート ${ROMAN[i+1]}`, reward: n<=10?"星ノ欠片 5":n==20?"星ノ欠片 10":"星ノ欠片 20", condition: `${attr}属性のみのチームで星ノ塔を${n}回クリアする` }))),
-                ...[10,50,200,500,1000,1600,2200,2800,4000,6000].map((n, i) => ({ id: 3100+i, name: `コンビニの常連 ${ROMAN[i+1]}`, reward: n<=1600?"星ノ欠片 5":n==2200?"星ノ欠片 10":"星ノ欠片 20", condition: `星ノ塔のコンビニで${n}回買い物する` })),
-                ...[20,60,150,300,450,600,750,900,1200,1500].map((n, i) => ({ id: 3200+i, name: `偶然の出会い ${ROMAN[i+1]}`, reward: n<=600?"星ノ欠片 5":n==750?"星ノ欠片 10":"星ノ欠片 20", condition: `星ノ塔でイベントを${n}回発生させる` })),
-                ...[2000,60000,140000,350000,650000,999999].map((n, i) => ({ id: 3300+i, name: `大富豪 ${ROMAN[i+1]}`, reward: n<=60000?"星ノ欠片 5":n<=350000?"星ノ欠片 10":"星ノ欠片 20", condition: `星ノ塔でステラコインを${n}枚獲得する` })),
                 ...["強撃","幸運","爆発","体力","集中","器用","必殺","水","火","風","地","光","闇"].flatMap((note, idx) => [100,500,1200,3000,5000].map((n, i) => ({ id: 4000+(idx*10)+i, name: `絶対音感・${note} ${ROMAN[i+1]}`, reward: n==100?"星ノ欠片 5":n<=1200?"星ノ欠片 10":"星ノ欠片 20", condition: `星ノ塔で${note}の音符を${n}個獲得する` }))),
+                ...[10,50,200,500,1000,1600,2200,2800,4000,6000].map((n, i) => ({ id: 3100+i, name: `コンビニの常連 ${ROMAN[i+1]}`, reward: n<=1600?"星ノ欠片 5":n==2200?"星ノ欠片 10":"星ノ欠片 20", condition: `星ノ塔のコンビニで${n}回買い物する` })),
+                ...[10,20,30,40,50,60,70,80,90].map((n, i) => ({ id: 4100+i, name: `偶然のめぐりあわせ ${ROMAN[i+1]}`, reward: n<=20?"星ノ欠片 5":n<=50?"星ノ欠片 10":"星ノ欠片 20", condition: `図鑑に逸話ノートを${n}個登録する` })),
+                ...[30,60,90,120,150,180,210,240,270].map((n, i) => ({ id: 4200+i, name: `秘めた力 ${ROMAN[i+1]}`, reward: n<=60?"星ノ欠片 5":n<=150?"星ノ欠片 10":"星ノ欠片 20", condition: `図鑑に素質を${n}個登録する` })),
+                ...[2,10,70,250,500,750,1000,1250,1750,2500].map((n, i) => ({ id: 4300+i, name: `素質解放 ${ROMAN[i+1]}`, reward: n<=10?"星ノ欠片 5":n<=500?"星ノ欠片 10":"星ノ欠片 20", condition: `星ノ塔で強化マシンを${n}回使用する` })),
                 ...[100,250,500,1200,2000,3000].map((n, i) => ({ id: 3400+i, name: `さらなる高みへ ${ROMAN[i+1]}`, reward: n<=250?"星ノ欠片 5":n<=1200?"星ノ欠片 10":"星ノ欠片 20", condition: `星ノ塔で戦闘の間を${n}回発見する` })),
                 ...[30,80,200,500,800,1200,1600].map((n, i) => ({ id: 3500+i, name: `お掃除マスター ${ROMAN[i+1]}`, reward: n<=80?"星ノ欠片 5":n<=500?"星ノ欠片 10":"星ノ欠片 20", condition: `星ノ塔で強敵ノ間を${n}回発見する` })),
                 ...[20,40,80,200,320,480,660].map((n, i) => ({ id: 3600+i, name: `正々堂々 ${ROMAN[i+1]}`, reward: n<=40?"星ノ欠片 5":n<=200?"星ノ欠片 10":"星ノ欠片 20", condition: `星ノ塔で首領ノ間を${n}回発見する` })),
                 ...[10,20,40,100,160,240,320].map((n, i) => ({ id: 3700+i, name: `星狩り ${ROMAN[i+1]}`, reward: n<=20?"星ノ欠片 5":n<=100?"星ノ欠片 10":"星ノ欠片 20", condition: `星ノ塔で魔王ノ間を${n}回発見する` })),
                 ...[40,80,160,400,640,960,1200].map((n, i) => ({ id: 3800+i, name: `いらっしゃいませ ${ROMAN[i+1]}`, reward: n<=80?"星ノ欠片 5":n<=400?"星ノ欠片 10":"星ノ欠片 20", condition: `星ノ塔で取引ノ間を${n}回発見する` })),
-                ...[30,90,200,600,1000,1500].map((n, i) => ({ id: 3900+i, name: `休息タイム ${ROMAN[i+1]}`, reward: n<=90?"星ノ欠片 5":n<=600?"星ノ欠片 10":"星ノ欠片 20", condition: `星ノ塔で決断ノ間を${n}回発見する` })),
-                ...[10,20,30,40,50,60,70,80,90].map((n, i) => ({ id: 4050+i, name: `偶然のめぐりあわせ ${ROMAN[i+1]}`, reward: n<=20?"星ノ欠片 5":n<=50?"星ノ欠片 10":"星ノ欠片 20", condition: `図鑑に逸話ノートを${n}個登録する` })),
-                ...[30,60,90,120,150,180,210,240,270].map((n, i) => ({ id: 4100+i, name: `秘めた力 ${ROMAN[i+1]}`, reward: n<=60?"星ノ欠片 5":n<=150?"星ノ欠片 10":"星ノ欠片 20", condition: `図鑑に素質を${n}個登録する` })),
-                ...[2,10,70,250,500,750,1000,1250,1750,2500].map((n, i) => ({ id: 4200+i, name: `素質解放 ${ROMAN[i+1]}`, reward: n<=10?"星ノ欠片 5":n<=500?"星ノ欠片 10":"星ノ欠片 20", condition: `星ノ塔で強化マシンを${n}回使用する` })),
-                ...[5,10,20,50,100].map((n, i) => ({ id: 4300+i, name: `もう少し考える ${ROMAN[i+1]}`, reward: n<=10?"星ノ欠片 5":n==20?"星ノ欠片 10":"星ノ欠片 20", condition: `星ノ塔で再抽選を${n}回行う` })),
-                ...[5,10,30,50,100].map((n, i) => ({ id: 4400+i, name: `商品入れ替え ${ROMAN[i+1]}`, reward: n<=10?"星ノ欠片 5":n<=50?"星ノ欠片 10":"星ノ欠片 20", condition: `星ノ塔でコンビニのラインナップ更新を${n}回行う` })),
-                ...[5,10,20,50,100].map((n, i) => ({ id: 4500+i, name: `ほとばしる力 ${ROMAN[i+1]}`, reward: n<=10?"星ノ欠片 5":n==20?"星ノ欠片 10":"星ノ欠片 20", condition: `素質獲得時に歓喜の心を${n}回発動する` })),
-                ...[5,10,20,50,100].map((n, i) => ({ id: 4600+i, name: `強化昇格 ${ROMAN[i+1]}`, reward: n<=10?"星ノ欠片 5":n==20?"星ノ欠片 10":"星ノ欠片 20", condition: `素質強化時に素質飛昇を${n}回発動する` })),
-                ...[5,20,200,1000,2000].map((n, i) => ({ id: 4700+i, name: `バーゲンセール ${ROMAN[i+1]}`, reward: n<=20?"星ノ欠片 5":n==200?"星ノ欠片 10":"星ノ欠片 20", condition: `星ノ塔のコンビニで割引アイテムを${n}回購入する` })),
-                ...[1,6,30,90,200,300,400,500,700,1000].map((n, i) => ({ id: 4800+i, name: `ロスレコ共鳴 ${ROMAN[i+1]}`, reward: n<=6?"星ノ欠片 5":n<=200?"星ノ欠片 10":"星ノ欠片 20", condition: `星ノ塔でロスレコのアシスト効果を${n}回解放する` }))
+                ...[30,90,200,600,1000,1500].map((n, i) => ({ id: 3900+i, name: `休息タイム ${ROMAN[i+1]}`, reward: n<=90?"星ノ欠片 5":n<=600?"星ノ欠片 10":"星ノ欠片 20", condition: `星ノ塔で決断ノ間を${n}回発見する` }))
             ]
         },
         {
@@ -174,55 +162,13 @@
                 ...[20,40,80,240,480].map((n, i) => ({ id: 511+i, name: `熟練の技 ${ROMAN[i+1]}`, reward: n<=40?"星ノ欠片 5":"星ノ欠片 10", condition: `昇格試練を${n}回クリアする` })),
                 ...[30,60,120].map((n, i) => ({ id: 521+i, name: `初心忘れるべからず ${ROMAN[i+1]}`, reward: n<=60?"星ノ欠片 5":"星ノ欠片 10", condition: `基礎研修を${n}回クリアする` })),
                 ...["無","風","地","闇","火","水","光"].flatMap((type, tidx) => [1,2,3,4,5,6].map(lv => ({ id: 6000+(tidx*10)+lv, name: `チャンピオンベルト・${type} ${ROMAN[lv]}`, reward: lv<=2?"星ノ欠片 5":lv<=5?"星ノ欠片 10":"星ノ欠片 20", condition: `無限リングで${type=='無'?'無限アリーナ':type=='風'?'涼風の調べ':type=='地'?'古城の喊声':type=='闇'?'密室の儀式':type=='火'?'灼熱の狂舞':type=='水'?'麗しの流歌':'閃光の饗宴'}・難易度${lv}をクリアする` }))),
-                ...["怪奇ノ霊","癒悦ノ光","空壺ノ王"].flatMap((boss, bidx) => [10,20,50,100].map((n, i) => ({ id: 7000+(bidx*10)+i, name: `${bidx==0?'ゴーストハント':bidx==1?'お茶の子さいさい':'パンプアップ'} ${ROMAN[i+1]}`, reward: n<100?"星ノ欠片 5":"星ノ欠片 10", condition: `昇格試練で${boss}を${n}回クリアする` }))),
-                { id: 750, name: "もはや敵なし", reward: "星ノ欠片 20", condition: "昇格試練で3種類の首領の難易度8ステージを★3でクリアする" },
                 ...["水","火","地","風","光","闇"].flatMap((attr, idx) => [10,50,100,300,500,1000].map((n, i) => ({ id: 8000+(idx*10)+i, name: `${attr=='水'?'絶え間なき奔流':attr=='火'?'燃え上がる烈火':attr=='地'?'鳴動する大地':attr=='風'?'うずまく風':attr=='光'?'まばゆい光':'深き闇夜'} ${ROMAN[i+1]}`, reward: n<=50?"星ノ欠片 5":n==100?"星ノ欠片 10":"星ノ欠片 20", condition: `${attr}属性の印を${n}回発動する` }))),
                 ...[10,20,50,100,300,500,1000].map((n, i) => ({ id: 9000+i, name: `究極奥義 ${ROMAN[i+1]}`, reward: n<=20?"星ノ欠片 5":n==50?"星ノ欠片 10":"星ノ欠片 20", condition: `必殺技を${n}回発動する` })),
                 ...[10,20,50,100,300,500,1000].map((n, i) => ({ id: 10000+i, name: `専売特許 ${ROMAN[i+1]}`, reward: n<=20?"星ノ欠片 5":n==50?"星ノ欠片 10":"星ノ欠片 20", condition: `主力スキルを${n}回発動する` })),
                 ...[10,20,50,100,300,500,1000].map((n, i) => ({ id: 11000+i, name: `頼もしき支援 ${ROMAN[i+1]}`, reward: n<=20?"星ノ欠片 5":n==50?"星ノ欠片 10":"星ノ欠片 20", condition: `支援スキルを${n}回発動する` })),
-                { id: 11501, name: "至高の一撃 I", reward: "星ノ欠片 20", condition: "一回の攻撃で9999以上のダメージを与える" },
-                { id: 11502, name: "至高の一撃 II", reward: "星ノ欠片 20", condition: "一回の攻撃で99999以上のダメージを与える" },
-                { id: 11503, name: "至高の一撃 III", reward: "星ノ欠片 20", condition: "一回の攻撃で999999以上のダメージを与える" },
-                { id: 11504, name: "危機一髪 I", reward: "星ノ欠片 20", condition: "HPが10%以下の状態でステージをクリア" },
-                { id: 11505, name: "危機一髪 II", reward: "星ノ欠片 20", condition: "HPが5%以下の状態でステージをクリア" },
-                ...[10,20,50,100].map((n, i) => ({ id: 11600+i, name: `厄災の守護者 ${ROMAN[i+1]}`, reward: n<=20?"星ノ欠片 5":n==50?"星ノ欠片 10":"星ノ欠片 20", condition: `骸魔防衛戦を${n}回クリアする` })),
-                ...[3,20,50,200].map((n, i) => ({ id: 11700+i, name: `数々の功績 ${ROMAN[i+1]}`, reward: n<=20?"星ノ欠片 5":"星ノ欠片 10", condition: `徽章試練を${n}回クリアする` })),
                 { id: 12001, name: "手を出すな", reward: "星ノ欠片 20", condition: "両手を破壊した状態で太古ノ巨神兵を撃破する" },
-                { id: 12002, name: "日焼け対策", reward: "星ノ欠片 20", condition: "太古ノ巨神兵のレーザー攻撃を受ける" },
-                { id: 12003, name: "メカ対策のスペシャリスト", reward: "星ノ欠片 20", condition: "ダメージを受けずに太古ノ巨神兵を撃破する" },
-                { id: 12004, name: "調教師", reward: "星ノ欠片 20", condition: "破砕ノ牙の猪突爆進の発動を中断させる" },
-                { id: 12005, name: "獣と踊る", reward: "星ノ欠片 20", condition: "破砕ノ牙の猪突爆進の発動中にダメージを受けない" },
-                { id: 12006, name: "角に注意", reward: "星ノ欠片 20", condition: "破砕ノ牙の猪突爆進を3回以上受ける" },
-                { id: 12007, name: "巨大獣捕獲のスペシャリスト", reward: "星ノ欠片 20", condition: "ダメージを受けずに破砕ノ牙を撃破する" },
-                { id: 12008, name: "植物学者", reward: "星ノ欠片 20", condition: "未恋ノ禍実のツボミを破壊せずにクリアする" },
-                { id: 12009, name: "動物好き", reward: "星ノ欠片 20", condition: "フィールド上にウッドモットが生存せいている状態で未恋ノ禍実を撃破する" },
                 { id: 12010, name: "清廉潔白", reward: "星ノ欠片 20", condition: "ダメージを受けずに未恋ノ禍実をクリアする" },
-                { id: 12011, name: "湿度管理", reward: "星ノ欠片 20", condition: "ゼリゼリキングの再合体を阻止する" },
-                { id: 12012, name: "きれいさっぱり", reward: "星ノ欠片 20", condition: "ゼリゼリキング再合体後の衝撃波を回避する" },
-                { id: 12013, name: "混沌の終わり", reward: "星ノ欠片 20", condition: "ダメージを受けずに不朽ノ砦をクリアする" },
-                { id: 12014, name: "朽ちない意思", reward: "星ノ欠片 20", condition: "不朽ノ砦の広範囲攻撃をジャスト回避する" },
-                { id: 12015, name: "汚れ知らず", reward: "星ノ欠片 20", condition: "毒池の影響を受けずに深層ノ主を撃破する" },
-                { id: 12016, name: "怒らないで", reward: "星ノ欠片 20", condition: "深層ノ主の狂暴状態を中断させる" },
                 { id: 12017, name: "トップダンサー", reward: "星ノ欠片 20", condition: "ダメージを受けずに怪奇ノ霊を撃破する" },
-                { id: 12018, name: "ビートを刻め", reward: "星ノ欠片 20", condition: "戦闘中に、怪奇ノ霊がリピート演奏を発動する" },
-                { id: 12019, name: "パーフェクトステップ", reward: "星ノ欠片 20", condition: "1回の怪奇ノ霊との戦闘中にジャスト回避を10回成功させる" },
-                { id: 12020, name: "未然に防ぐ", reward: "星ノ欠片 20", condition: "空壺ノ王がブレイク状態の時に撃破する" },
-                { id: 12021, name: "情けは無用", reward: "星ノ欠片 20", condition: "空壺ノ王がツボの姿の時に撃破する" },
-                { id: 12022, name: "食事中はお静かに", reward: "星ノ欠片 20", condition: "狂気ノ料理人のカトラリーの回収を全て阻止する" },
-                { id: 12023, name: "夢の終わり", reward: "星ノ欠片 20", condition: "ナイトメアデミスが狂暴状態に入る前に撃破する" },
-                { id: 12024, name: "脳内手術", reward: "星ノ欠片 20", condition: "ナイトメアデミスを10秒以内に3体撃破する" },
-                { id: 12025, name: "熟練のハンター", reward: "星ノ欠片 20", condition: "ナイトメアソルジャーの突進技を受けずに撃破する" },
-                { id: 12026, name: "未熟なハンター", reward: "星ノ欠片 20", condition: "1回の戦闘中、ナイトメアソルジャーの突撃を5回受ける" },
-                { id: 12027, name: "ハンターの直感", reward: "星ノ欠片 20", condition: "ナイトメアソルジャーの必殺技を中断させる" },
-                { id: 12028, name: "ノー・モア・ナイトメア", reward: "星ノ欠片 20", condition: "ダメージを受けずにナイトメアソルジャーを撃破する" },
-                { id: 12029, name: "一人ぼっち", reward: "星ノ欠片 20", condition: "フィールド上に存在する敵がいない時にシャド―リーパーを撃破する" },
-                { id: 12030, name: "塵と化す", reward: "星ノ欠片 20", condition: "ダメージを受けずにシャド―リーパーをクリアする" },
-                { id: 12031, name: "エサ撒き", reward: "星ノ欠片 20", condition: "翠煌ノ刃のハチドリブリッツの発動中にスキルの中心にいる" },
-                { id: 12032, name: "三連回避", reward: "星ノ欠片 20", condition: "1回の戦闘で5回ジャスト回避する" },
-                { id: 12033, name: "電光石火", reward: "星ノ欠片 20", condition: "翠煌ノ刃との戦闘中に召喚物のダメージを受けない" },
-                { id: 12034, name: "柳に風", reward: "星ノ欠片 20", condition: "幻惑ノ花との戦闘中に竜巻のダメージを受けない" },
-                { id: 12035, name: "盾を突く", reward: "星ノ欠片 20", condition: "バスターアームのクロールスキルを1回中断させる" },
-                { id: 12036, name: "単刀直入", reward: "星ノ欠片 20", condition: "周囲の敵を撃破せずにフレグラミートを撃破する" },
                 ...["ゼリゼリ","ツボツボ","メカ","衛兵","メイジ"].flatMap((type, tidx) => [200, 1000].map((n, i) => ({ id: 13000+(tidx*10)+i, name: `対${type}${i==0?'マスター':'グランドマスター'}`, reward: i==0?"星ノ欠片 5":"星ノ欠片 10", condition: `星ノ塔で${type}タイプの敵を${n}体撃破する` })))
             ]
         },
@@ -253,7 +199,7 @@
         }
     ];
 
-    let status = JSON.parse(localStorage.getItem('stella-sora-full-v5')) || {};
+    let status = JSON.parse(localStorage.getItem('stella-sora-full-v5-final')) || {};
     let openCategories = {};
 
     function render() {
@@ -331,14 +277,14 @@
 
     window.toggleAchievement = (id) => {
         status[id] = !status[id];
-        localStorage.setItem('stella-sora-full-v5', JSON.stringify(status));
+        localStorage.setItem('stella-sora-full-v5-final', JSON.stringify(status));
         render();
     };
 
     document.getElementById('reset-btn').onclick = () => {
-        if(confirm('全てのデータを削除しますか？')) {
+        if(confirm('注意：全ての進捗データが削除されます。本当によろしいですか？')) {
             status = {};
-            localStorage.setItem('stella-sora-full-v5', JSON.stringify(status));
+            localStorage.setItem('stella-sora-full-v5-final', JSON.stringify(status));
             render();
         }
     };
@@ -349,5 +295,3 @@
 </script>
 </body>
 </html>
-
-
