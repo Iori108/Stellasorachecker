@@ -50,7 +50,6 @@
         .progress-bar { background: var(--accent-color); height: 100%; width: 0%; transition: width 0.4s ease; }
         .progress-bar.complete { background-color: var(--success-color) !important; }
         .pct-label { font-size: 0.85rem; min-width: 45px; text-align: right; font-family: monospace; }
-        .complete-badge { color: var(--success-color); font-weight: bold; font-size: 0.8rem; margin-left: 5px; display: none; }
 
         .category-content { display: none; padding: 0; border-top: 1px solid var(--border-color); }
         .category.open .category-content { display: block; }
@@ -99,7 +98,8 @@
     <footer>
         <p>本ツールはステラソラ二次創作ガイドラインに沿って制作されたファンメイドコンテンツです。Yoster社とは関係ありません。</p>
         <p>本ツールは予告なしに利用を終了する場合があります</p>
-        <p>こちらに関するお問い合わせ・要望等は ioritoku108@gmail.com または、discord: iori108 にお知らせください。</p>
+        <p>こちらに関するお問い合わせ・要望、また、欠けている実績の情報提供等も大歓迎です！</p>
+        <p>メール: ioritoku108@gmail.com | Discord: iori108 | X: @iori108_</p>
     </footer>
 </div>
 
@@ -230,7 +230,7 @@
             items: [
                 ...[10,20,30,40,50].map((n, i) => ({ id: 14001+i, name: `世渡り上手 ${ROMAN[i+1]}`, reward: n<=30?"星ノ欠片 5":n==40?"星ノ欠片 10":"星ノ欠片 20", condition: `巡遊者の昇格を${n}回行う` })),
                 ...[10,20,30,40,50].map((n, i) => ({ id: 14101+i, name: `調和するメロディ ${ROMAN[i+1]}`, reward: n<=30?"星ノ欠片 5":n==40?"星ノ欠片 10":"星ノ欠片 20", condition: `ロスレコの昇格を${n}回行う` })),
-                ...[20,30,50,90,90].map((lv, i) => ({ id: 14201+i, name: `精鋭揃い ${ROMAN[i+1]}`, reward: lv<=30?"星ノ欠片 5":lv==50?"星ノ欠片 10":"星ノ欠片 10", condition: `${i==4?'巡遊者6人':'巡遊者3人'}をLv.${lv}にする` })),
+                ...[20,30,50,90,90,90].map((lv, i) => ({ id: 14201+i, name: `精鋭揃い ${ROMAN[i+1]}`, reward: lv<=30?"星ノ欠片 5":lv==50?"星ノ欠片 10":"星ノ欠片 10", condition: `${i==4?'巡遊者6人':i==5?'巡遊者9人':'巡遊者3人'}をLv.${lv}にする` })),
                 ...["水","火","地","風","光","闇"].flatMap((attr, idx) => [20,30,50,90].map((lv, i) => ({ id: 14300+(idx*10)+i, name: `${attr}の専門家 ${ROMAN[i+1]}`, reward: lv<=30?"星ノ欠片 5":lv==50?"星ノ欠片 10":"星ノ欠片 20", condition: `${attr}属性の巡遊者3人をLv.${lv}にする` }))),
                 ...[20,30,50,90].map((lv, i) => ({ id: 14401+i, name: `秘蔵コレクション ${ROMAN[i+1]}`, reward: lv<=30?"星ノ欠片 5":lv==50?"星ノ欠片 10":"星ノ欠片 10", condition: `ロスレコ3枚をLv.${lv}にする` })),
                 ...[10,20,30,40,50].map((n, i) => ({ id: 14501+i, name: `レコードコレクター ${ROMAN[i+1]}`, reward: n<=20?"星ノ欠片 5":n<=40?"星ノ欠片 10":"星ノ欠片 20", condition: `ロスレコを${n}枚獲得する` })),
@@ -238,6 +238,7 @@
                 { id: 14701, name: "良縁成就 I", reward: "星ノ欠片 5", condition: "巡遊者10人を獲得する" },
                 { id: 14702, name: "良縁成就 II", reward: "星ノ欠片 5", condition: "巡遊者20人を獲得する" },
                 { id: 14801, name: "ドリームチーム I", reward: "星ノ欠片 20", condition: "★5の巡遊者5人を獲得する" },
+                { id: 14802, name: "ドリームチーム II", reward: "星ノ欠片 20", condition: "★5の巡遊者10人を獲得する" },
                 ...[3,10,15,20].map((n, i) => ({ id: 14901+i, name: `努力あるのみ ${ROMAN[i+1]}`, reward: n<=10?"星ノ欠片 5":n==15?"星ノ欠片 10":"星ノ欠片 10", condition: `巡遊者${n}人のスキルをLv.${n==20?7:4}に強化する` }))
             ]
         },
@@ -251,7 +252,7 @@
         }
     ];
 
-    let status = JSON.parse(localStorage.getItem('stella-sora-full-final-v4')) || {};
+    let status = JSON.parse(localStorage.getItem('stella-sora-full-v5')) || {};
     let openCategories = {};
 
     function render() {
@@ -297,7 +298,7 @@
 
             catDiv.innerHTML = `
                 <div class="category-header" onclick="toggleCategory(this, ${index})">
-                    <strong>${cat.category} (${doneCount}/${count})<span class="complete-badge" style="display:${isComplete?'inline':'none'}">COMPLETED!!</span></strong>
+                    <strong>${cat.category} (${doneCount}/${count})${isComplete?' <span style="color:#2ecc71">★</span>':''}</strong>
                     <div class="progress-wrapper">
                         <div class="progress-container">
                             <div class="progress-bar ${isComplete?'complete':''}" style="width: ${pct}%"></div>
@@ -318,7 +319,6 @@
         totalBar.style.width = `${totalPct}%`;
         if(totalComplete) totalBar.classList.add('complete'); else totalBar.classList.remove('complete');
         document.getElementById('total-pct').textContent = `${totalPct}%`;
-        document.getElementById('total-pct').style.color = totalComplete ? 'var(--success-color)' : 'inherit';
         document.getElementById('congrats-msg').style.display = totalComplete ? 'block' : 'none';
     }
 
@@ -330,14 +330,14 @@
 
     window.toggleAchievement = (id) => {
         status[id] = !status[id];
-        localStorage.setItem('stella-sora-full-final-v4', JSON.stringify(status));
+        localStorage.setItem('stella-sora-full-v5', JSON.stringify(status));
         render();
     };
 
     document.getElementById('reset-btn').onclick = () => {
-        if(confirm('注意：全ての進捗データが削除されます。本当によろしいですか？')) {
+        if(confirm('全てのデータを削除しますか？')) {
             status = {};
-            localStorage.setItem('stella-sora-full-final-v4', JSON.stringify(status));
+            localStorage.setItem('stella-sora-full-v5', JSON.stringify(status));
             render();
         }
     };
